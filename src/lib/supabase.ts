@@ -25,9 +25,10 @@ export type Member = {
 export type RunLog = {
   id: string
   room_id: string
-  nickname: string
+  user_id: string
   run_date: string
   km: number
   week_start: string
   created_at: string
+  [key: string]: unknown
 }
