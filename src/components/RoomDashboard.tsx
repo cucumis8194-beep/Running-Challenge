@@ -21,13 +21,13 @@ type MemberStat = { displayName: string; userId: string; totalKm: number; days: 
 type WeekHistory = { weekStart: string; totalKm: number; goalKm: number; done: boolean }
 
 const DAY_KR = ['일','월','화','수','목','금','토']
-const TODAY = getTodayKst()
-const WEEK_START = getWeekStart()
 
 export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty, displayName, userId, createdBy, adminPassword, onLeave, onRoomUpdate }: Props) {
+  const TODAY = getTodayKst()
+  const WEEK_START = getWeekStart()
   const [logs, setLogs] = useState<RunLog[]>([])
   const [members, setMembers] = useState<{ userId: string; displayName: string }[]>([])
-  const [selectedDate, setSelectedDate] = useState(TODAY)
+  const [selectedDate, setSelectedDate] = useState(() => getTodayKst())
   const [km, setKm] = useState('')
   const [addError, setAddError] = useState('')
   const [adding, setAdding] = useState(false)
