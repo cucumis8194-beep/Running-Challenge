@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { supabase, RunLog } from '@/lib/supabase'
-import { getWeekStart, getWeekDates, formatDateKr, formatWeekRange } from '@/lib/dates'
+import { getWeekStart, getWeekDates, formatDateKr, formatWeekRange, getTodayKst } from '@/lib/dates'
 import styles from './RoomDashboard.module.css'
 
 type Props = {
@@ -22,7 +22,7 @@ type WeekHistory = { weekStart: string; totalKm: number; goalKm: number; done: b
 
 const DAY_KR = ['일','월','화','수','목','금','토']
 const WEEK_START = getWeekStart()
-const TODAY = (() => { const kstOffset = 9 * 60; const utc = new Date().getTime() + new Date().getTimezoneOffset() * 60000; return new Date(utc + kstOffset * 60000).toISOString().slice(0, 10) })()
+const TODAY = getTodayKst()
 
 export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty, displayName, userId, createdBy, adminPassword, onLeave, onRoomUpdate }: Props) {
   const [logs, setLogs] = useState<RunLog[]>([])
@@ -43,7 +43,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
   const isAdmin = createdBy === userId
 
   const weekDates = getWeekDates(WEEK_START)
-  const todayIdx = (() => { const kstOffset = 9 * 60; const utc = new Date().getTime() + new Date().getTimezoneOffset() * 60000; return (new Date(utc + kstOffset * 60000).getDay() + 6) % 7 })()
+  const todayIdx = (() => { const kst = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60000 + 9*60*60000); return (kst.getDay() + 6) % 7 })()
 
   const loadData = useCallback(async () => {
     const [{ data: logData }, { data: memberData }] = await Promise.all([
