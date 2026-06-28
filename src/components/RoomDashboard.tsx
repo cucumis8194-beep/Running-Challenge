@@ -21,8 +21,8 @@ type MemberStat = { displayName: string; userId: string; totalKm: number; days: 
 type WeekHistory = { weekStart: string; totalKm: number; goalKm: number; done: boolean }
 
 const DAY_KR = ['일','월','화','수','목','금','토']
-const WEEK_START = getWeekStart()
 const TODAY = getTodayKst()
+const WEEK_START = getWeekStart()
 
 export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty, displayName, userId, createdBy, adminPassword, onLeave, onRoomUpdate }: Props) {
   const [logs, setLogs] = useState<RunLog[]>([])
@@ -43,7 +43,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
   const isAdmin = createdBy === userId
 
   const weekDates = getWeekDates(WEEK_START)
-  const todayIdx = (() => { const kst = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60000 + 9*60*60000); return (kst.getDay() + 6) % 7 })()
+  const todayIdx = (new Date(TODAY + 'T00:00:00').getDay() + 6) % 7
 
   const loadData = useCallback(async () => {
     const [{ data: logData }, { data: memberData }] = await Promise.all([
