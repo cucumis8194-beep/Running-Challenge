@@ -201,7 +201,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
             <div className={`${styles.progFill} ${isDone ? styles.fillDone : isLastDay ? styles.fillDanger : styles.fillProgress}`} style={{ width: `${pct.toFixed(1)}%` }} />
           </div>
           {isDone
-            ? <p className={styles.statusOk}>이번 주 미션 완료! {penalty} 안 사도 됩니다 🎉</p>
+            ? <p className={styles.statusOk}>이번 주 미션 완료! {penalty} 안 해도 됩니다 🎉</p>
             : <p className={styles.statusWarn}>목표까지 {(goalKm - myKm).toFixed(1)}km 더 달려야 해요 → 못 채우면 <b>{penalty}</b></p>
           }
           {totalWeeks > 0 && (
