@@ -15,7 +15,7 @@ export function getWeekStart(date = new Date()): string {
 export function getWeekEnd(weekStart: string): string {
   const d = new Date(weekStart + 'T00:00:00')
   d.setDate(d.getDate() + 6)
-  return d.toISOString().slice(0, 10)
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
 }
 
 export function getWeekDates(weekStart: string): Date[] {
