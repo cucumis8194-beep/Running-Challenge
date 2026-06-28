@@ -4,18 +4,22 @@ function getKstDate(date = new Date()): Date {
   return new Date(utc + kstOffset * 60000)
 }
 
+function dateToStr(d: Date): string {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0')
+}
+
 export function getWeekStart(date = new Date()): string {
   const kst = getKstDate(date)
   const day = kst.getDay()
   const diff = day === 0 ? -6 : 1 - day
   kst.setDate(kst.getDate() + diff)
-  return `${kst.getFullYear()}-${String(kst.getMonth()+1).padStart(2,'0')}-${String(kst.getDate()).padStart(2,'0')}`
+  return dateToStr(kst)
 }
 
 export function getWeekEnd(weekStart: string): string {
   const d = new Date(weekStart + 'T00:00:00')
   d.setDate(d.getDate() + 6)
-  return d.toISOString().slice(0, 10)
+  return dateToStr(d)
 }
 
 export function getWeekDates(weekStart: string): Date[] {
@@ -39,6 +43,5 @@ export function formatWeekRange(weekStart: string): string {
 }
 
 export function getTodayKst(): string {
-  const kst = getKstDate()
-  return `${kst.getFullYear()}-${String(kst.getMonth()+1).padStart(2,'0')}-${String(kst.getDate()).padStart(2,'0')}`
+  return dateToStr(getKstDate())
 }
