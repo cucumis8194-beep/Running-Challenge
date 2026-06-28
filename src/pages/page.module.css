@@ -207,3 +207,8 @@
   color: #1a1a1a;
   margin-bottom: 1.25rem;
 }
+
+.userBar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 10px 14px; background: white; border-radius: 10px; border: 1px solid #e8e8e2; }
+.userNick { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+.logoutBtn { font-size: 12px; color: #888; background: none; border: 1px solid #ddd; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-family: inherit; }
+.logoutBtn:hover { color: #d63030; border-color: #d63030; }
