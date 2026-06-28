@@ -22,7 +22,7 @@ type WeekHistory = { weekStart: string; totalKm: number; goalKm: number; done: b
 
 const DAY_KR = ['일','월','화','수','목','금','토']
 const WEEK_START = getWeekStart()
-const TODAY = new Date().toISOString().slice(0,10)
+const TODAY = (() => { const kstOffset = 9 * 60; const utc = new Date().getTime() + new Date().getTimezoneOffset() * 60000; return new Date(utc + kstOffset * 60000).toISOString().slice(0, 10) })()
 
 export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty, displayName, userId, createdBy, adminPassword, onLeave, onRoomUpdate }: Props) {
   const [logs, setLogs] = useState<RunLog[]>([])
@@ -43,7 +43,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
   const isAdmin = createdBy === userId
 
   const weekDates = getWeekDates(WEEK_START)
-  const todayIdx = (new Date().getDay()+6)%7
+  const todayIdx = (() => { const kstOffset = 9 * 60; const utc = new Date().getTime() + new Date().getTimezoneOffset() * 60000; return (new Date(utc + kstOffset * 60000).getDay() + 6) % 7 })()
 
   const loadData = useCallback(async () => {
     const [{ data: logData }, { data: memberData }] = await Promise.all([
@@ -51,7 +51,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
       supabase.from('room_members').select('user_id, display_name').eq('room_id', roomId)
     ])
     if (logData) setLogs(logData as RunLog[])
-    if (memberData) setMembers((memberData as unknown) as { userId: string; displayName: string }[])
+    if (memberData) setMembers(memberData.map((m: {user_id: string; display_name: string}) => ({ userId: m.user_id, displayName: m.display_name })))
 
     if (logData) {
       const allWeeks = [...new Set(logData.map((l: RunLog) => l.week_start))].sort().reverse()
@@ -77,14 +77,16 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
   }
 
   function getStats(): MemberStat[] {
-    const memberMap = new Map(members.map(m => [m.userId, m.displayName]))
-    const userIds = [...new Set(logs.filter(l => l.week_start === WEEK_START).map(l => l.user_id))]
-    members.forEach(m => { if (!userIds.includes(m.userId)) userIds.push(m.userId) })
-    return userIds.map(uid => {
-      const myLogs = logs.filter(l => l.user_id === uid && l.week_start === WEEK_START)
+    return members.map(m => {
+      const myLogs = logs.filter(l => String(l.user_id) === m.userId && l.week_start === WEEK_START)
       const total = myLogs.reduce((s, l) => s + Number(l.km), 0)
-      return { displayName: memberMap.get(uid) || uid, userId: uid, totalKm: total, days: new Set(myLogs.map(l => l.run_date)).size, done: total >= goalKm }
+      return { displayName: m.displayName, userId: m.userId, totalKm: total, days: new Set(myLogs.map(l => l.run_date)).size, done: total >= goalKm }
     }).sort((a, b) => b.totalKm - a.totalKm)
+  }
+
+  function getRank(stats: MemberStat[], idx: number): number {
+    if (idx === 0) return 1
+    return stats[idx].totalKm === stats[idx - 1].totalKm ? getRank(stats, idx - 1) : idx + 1
   }
 
   async function handleAdd() {
@@ -212,7 +214,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
             return (
               <div key={i} className={`${styles.dayCell} ${isToday ? styles.dayCellToday : ''} ${dayKm > 0 ? styles.dayCellRan : ''} ${i > todayIdx ? styles.dayCellFuture : ''}`}
                 onClick={() => i <= todayIdx && setSelectedDate(dateStr)}>
-                <div className={styles.dayName}>{DAY_KR[d.getDay()]}</div>
+                <div className={styles.dayName}>{['일','월','화','수','목','금','토'][d.getDay()]}</div>
                 <div className={styles.dayKm}>{dayKm > 0 ? dayKm.toFixed(1) : i < todayIdx ? '—' : ''}</div>
               </div>
             )
@@ -225,7 +227,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
             <select className={styles.select} value={selectedDate} onChange={e => setSelectedDate(e.target.value)}>
               {weekDates.slice(0, todayIdx+1).map((d, i) => {
                 const ds = d.toISOString().slice(0,10)
-                return <option key={i} value={ds}>{DAY_KR[d.getDay()]}요일 ({formatDateKr(ds)})</option>
+                return <option key={i} value={ds}>{formatDateKr(ds)}</option>
               })}
             </select>
             <input className={styles.kmInput} type="number" placeholder="km" min="0.1" max="200" step="0.1"
@@ -261,9 +263,10 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
             {stats.map((s, rank) => {
               const p = Math.min(100, (s.totalKm / goalKm) * 100)
               const isMe = s.userId === userId
+              const displayRank = getRank(stats, rank)
               return (
                 <div key={s.userId} className={`${styles.lbRow} ${isMe ? styles.lbRowMe : ''}`}>
-                  <div className={styles.lbRank}>{rank+1}</div>
+                  <div className={styles.lbRank}>{displayRank}</div>
                   <div className={styles.lbInfo}>
                     <div className={styles.lbName}>
                       {s.displayName} {isMe && <span className={styles.meTag}>나</span>}
