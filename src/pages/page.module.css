@@ -39,6 +39,7 @@
   font-weight: 500;
   cursor: pointer;
   color: #666;
+  transition: all .15s;
 }
 .tabActive {
   background: white;
@@ -48,6 +49,7 @@
   background: white;
   border-radius: 16px;
   padding: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 .field {
   margin-bottom: 1rem;
@@ -67,6 +69,11 @@
   padding: 0 12px;
   font-size: 15px;
   outline: none;
+  transition: border .15s;
+  font-family: inherit;
+}
+.input:focus {
+  border-color: #4a90d9;
 }
 .row {
   display: flex;
@@ -88,4 +95,115 @@
   font-weight: 600;
   cursor: pointer;
   margin-top: 4px;
+  font-family: inherit;
+}
+.btnPrimary:hover {
+  opacity: .85;
+}
+.btnPrimary:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.savedSection {
+  margin-bottom: 1.5rem;
+}
+.sectionLabel {
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.savedCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #e8e8e2;
+  transition: border .15s;
+}
+.savedCard:hover {
+  border-color: #aaa;
+}
+.savedInfo {
+  flex: 1;
+  min-width: 0;
+}
+.savedName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 3px;
+}
+.savedMeta {
+  font-size: 12px;
+  color: #888;
+}
+.savedActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+}
+.enterBtn {
+  font-size: 13px;
+  color: #4a90d9;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.removeBtn {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.removeBtn:hover {
+  color: #d63030;
+  background: #fde8e8;
+}
+.newSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.btnOutline {
+  width: 100%;
+  height: 44px;
+  background: white;
+  color: #1a1a1a;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btnOutline:hover {
+  border-color: #aaa;
+}
+.backBtn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1rem;
+  font-family: inherit;
+}
+.backBtn:hover {
+  color: #1a1a1a;
+}
+.cardTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1.25rem;
 }
