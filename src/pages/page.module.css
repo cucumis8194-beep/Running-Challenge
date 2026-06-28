@@ -1,24 +1,91 @@
-
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; }
-
-.main { min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; }
-.container { width: 100%; max-width: 480px; }
-.header { text-align: center; margin-bottom: 2rem; }
-.title { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-.subtitle { font-size: 15px; color: #666; }
-
-.tabs { display: flex; gap: 0; margin-bottom: 1rem; background: #e8e8e2; border-radius: 10px; padding: 3px; }
-.tab { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; color: #666; transition: all .15s; }
-.tabActive { background: white; color: #1a1a1a; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-
-.card { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-.field { margin-bottom: 1rem; }
-.label { display: block; font-size: 13px; color: #666; margin-bottom: 5px; font-weight: 500; }
-.input { width: 100%; height: 40px; border: 1px solid #e0e0da; border-radius: 8px; padding: 0 12px; font-size: 15px; outline: none; transition: border .15s; }
-.input:focus { border-color: #4a90d9; }
-.row { display: flex; gap: 12px; }
-.error { color: #d63030; font-size: 13px; margin-bottom: 10px; }
-
-.btnPrimary { width: 100%; height: 44px; background: #1a1a1a; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity .15s; margin-top: 4px; }
-.btnPrimary:hover { opacity: .85; }
-.btnPrimary:disabled { opacity: .5; cursor: not-allowed; }
+.main {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.container {
+  width: 100%;
+  max-width: 480px;
+}
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.subtitle {
+  font-size: 15px;
+  color: #666;
+}
+.tabs {
+  display: flex;
+  margin-bottom: 1rem;
+  background: #e8e8e2;
+  border-radius: 10px;
+  padding: 3px;
+}
+.tab {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #666;
+}
+.tabActive {
+  background: white;
+  color: #1a1a1a;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+.field {
+  margin-bottom: 1rem;
+}
+.label {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #e0e0da;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 15px;
+  outline: none;
+}
+.row {
+  display: flex;
+  gap: 12px;
+}
+.error {
+  color: #d63030;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.btnPrimary {
+  width: 100%;
+  height: 44px;
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+}
