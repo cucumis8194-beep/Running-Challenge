@@ -234,7 +234,7 @@ export default function Home() {
               )}
 
               <div className={styles.newSection}>
-                <button className={styles.btnOutline} onClick={() => { setStep('join-room'); setError(''); setJoinRoomForm({ code: '', displayName: user.nickname }) }}>기존 방 참가하기</button>
+                <button className={styles.btnOutline} onClick={() => { setStep('join-room'); setError(''); setJoinRoomForm({ code: '', displayName: user.nickname }) }}>방 참가하기</button>
                 <button className={styles.btnPrimary} onClick={() => { setStep('create-room'); setError('') }}>새 방 만들기</button>
               </div>
             </>
