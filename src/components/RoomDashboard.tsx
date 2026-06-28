@@ -21,6 +21,9 @@ type MemberStat = { displayName: string; userId: string; totalKm: number; days: 
 type WeekHistory = { weekStart: string; totalKm: number; goalKm: number; done: boolean }
 
 const DAY_KR = ['일','월','화','수','목','금','토']
+function dateToStr(d: Date): string {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0')
+}
 
 export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty, displayName, userId, createdBy, adminPassword, onLeave, onRoomUpdate }: Props) {
   const TODAY = getTodayKst()
@@ -208,7 +211,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
 
         <div className={styles.daysGrid}>
           {weekDates.map((d, i) => {
-            const dateStr = d.toISOString().slice(0,10)
+            const dateStr = dateToStr(d)
             const dayKm = logs.filter(l => l.user_id === userId && l.run_date === dateStr).reduce((s, l) => s + Number(l.km), 0)
             const isToday = i === todayIdx
             return (
@@ -226,7 +229,7 @@ export default function RoomDashboard({ roomId, roomName, code, goalKm, penalty,
           <div className={styles.addRow}>
             <select className={styles.select} value={selectedDate} onChange={e => setSelectedDate(e.target.value)}>
               {weekDates.slice(0, todayIdx+1).map((d, i) => {
-                const ds = d.toISOString().slice(0,10)
+                const ds = dateToStr(d)
                 return <option key={i} value={ds}>{formatDateKr(ds)}</option>
               })}
             </select>
